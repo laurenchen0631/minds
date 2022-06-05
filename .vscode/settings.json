@@ -1,9 +1,10 @@
 {
   "editor.renderWhitespace": "all",
-  "editor.tabSize": 2,
+  "editor.tabSize": 4,
   "python.linting.enabled": true,
-  "python.linting.pylintPath": "pylint",
   "editor.formatOnSave": true,
   "python.formatting.provider": "yapf",
-  "python.linting.pylintEnabled": true
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintPath": "bin/pylint",
+  "python.defaultInterpreterPath": "bin/python"
 }
