@@ -1,42 +1,54 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+import hashlib
 import requests
 from bs4 import BeautifulSoup
+import json
 
 
 @dataclass
 class Article:
     title: str
     subtitle: str
-    time: str
     content: str
+
+    def to_json(self) -> dict[str, str]:
+        return asdict(self)
 
 
 class WebScrape:
 
     def __init__(self) -> None:
         self.__site = "https://www.aljazeera.com"
-        self.articles: dict[str, any] = {}
+        self.articles: list[Article] = []
 
     def run(self, path='/where/mozambique/') -> None:
         main_page = requests.get(f"{self.__site}{path}")
         content = BeautifulSoup(main_page.content, 'html.parser')
 
         for article in content.find_all('article', class_='gc--type-post')[:10]:
-            print(article.find('h3', class_='gc__title').get_text())
-            print(self.scrape_article(article.find('h3', class_='gc__title').a['href']))
+            post = self.scrape_article(article.find('h3', class_='gc__title').a['href'])
+            self.articles.append(post)
 
     def scrape_article(self, path: str):
         page = requests.get(f"{self.__site}{path}")
         content = BeautifulSoup(page.content, 'html.parser')
         header = content.find('header', class_='article-header')
-        date = content.find('div', class_='article-dates').find_all('span')[1]
 
         paragraphs: list[str] = []
         for p in content.find('div', class_='wysiwyg').find_all('p'):
             paragraphs.append(p.get_text())
 
-        return Article(header.h1.get_text(), header.p.get_text(), date.get_text(),
-                       '\n'.join(paragraphs))
+        return Article(header.h1.get_text(), header.p.get_text(), '\n'.join(paragraphs))
+
+    def save(self) -> str:
+        json_str = json.dumps([e.to_json() for e in self.articles],
+                              indent=4,
+                              sort_keys=True,
+                              ensure_ascii=False)
+        filename = hashlib.md5(json_str.encode()).hexdigest() + '.json'
+        with open(filename, 'w', encoding="utf-8") as f:
+            f.write(json_str)
+        return filename
 
 
 if __name__ == '__main__':

@@ -5,10 +5,6 @@ Given a short list of curated websites, your script should be able to collect th
 (via web scraping) and run them through some basic sentiment analysis.
 
 Requirements
-1. Create a GitHub repo with a Python 3.8+ environment for this project and start a
-requirements.txt file to capture the external libraries/packages required to run your code.
-If you use a virtual environment such as conda, specify that in the summary (see step 6).
-This repository is where you can upload all the files pertaining to your submission.
 
 2. Collect 10 most recent articles from https://www.aljazeera.com/where/mozambique/
 Include collected articles as a JSON file in your submission repository. The format of the
