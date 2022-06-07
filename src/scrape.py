@@ -1,18 +1,8 @@
-from dataclasses import dataclass, asdict
 import hashlib
+import json
 import requests
 from bs4 import BeautifulSoup
-import json
-
-
-@dataclass
-class Article:
-    title: str
-    subtitle: str
-    content: str
-
-    def to_json(self) -> dict[str, str]:
-        return asdict(self)
+from article import Article
 
 
 class WebScrape:
@@ -49,8 +39,3 @@ class WebScrape:
         with open(filename, 'w', encoding="utf-8") as f:
             f.write(json_str)
         return filename
-
-
-if __name__ == '__main__':
-    w = WebScrape()
-    w.run()
