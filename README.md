@@ -1,23 +1,32 @@
-The goal of this programming exercise is to demonstrate your ability to design a solution to a
-problem and implement this solution in Python using software engineering best practices.
-The specific task will be to create a pipeline that collects and analyzes news articles from the web.
-Given a short list of curated websites, your script should be able to collect the latest news articles
-(via web scraping) and run them through some basic sentiment analysis.
+## Development
 
-Requirements
+1. This project use virtual environment `venv` with python `3.10.4`.
+2. Run `source bin/activate` on unix or MacOS to enable `venv`.
+3. Run `python -m pip install -r requirements.txt` to install external libraries
+4. Run `python src/__init__.py` to execute the program.
 
-3. Pre-process the data. Remove anything that is not part of the article itself, e.g. comments,
-publishing date, images, etc. Make sure the articles are in English and can be processed by
-the sentiment analysis library. Use the tqdm package to display progress on the terminal.
-Use PEP8 Style Guide for your python code.
-4. Compute the sentiment of each news article. We encourage you to use an off-the-shelf
-library, but you may create your own if you feel it is appropriate. Document your choice of
-sentiment analysis approach in your summary (see step 6).
-5. Visualize the results by plotting the sentiment using the plotly visualization library. Please
-include a screenshot of this plot in your submission repository.
-6. Create a README.md file with a summary of your results and provide high-level
-documentation of your code as well as instructions on how to run your code in order to
-reproduce the results. Include the total operation time of your code.
-When you’re done, please submit a link to the GitHub repository containing: your solution, a
-screenshot of the resulting visualization from Requirement 5, and all supporting documentation.
-Please submit
+## Summary
+
+- The project uses `beautifulsoup` and `requests` to do web crawling.
+- To clean unnecessary data for the analysis, only title, subtitle and paragraphs of an article are saved in the json file.
+- I use VADER Sentiment Analysis from `nltk` to detect the sentiment of each articles. When the score closes to 1, the sentiment is *positive*; when closing to -1, *negative*; otherwise, the sentiment is regarded as *neutral*.
+- For the operation time, the `vader_lexicon` downloading time is omitted from the result.
+
+    ```
+    Web Scraping: 0.5891s
+    Save JSON: 0.0012s
+    Sentiment Analysis: 0.0731s
+    Data Visualization: 0.0905s
+    ------------------------------
+    Operation time: 0.7541s
+    ```
+
+- For the only 10 articles, I don't aggregate the result but represent the each sentiment of the article parts.
+
+![analysis](sentiment.png)
+
+- From the graph, we can see the following:
+  - The recent 10 articles are mostly negative.
+  - The title of the news is quite neutral.
+  - Only one article shows positive sentiment.
+  - Often, content and subtitle show different sentiment.

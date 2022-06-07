@@ -11,7 +11,7 @@ start = now = time.process_time()
 def measure_time(label: str, from_beginning=False) -> None:
     global now
     t = time.process_time()
-    print(f'{label}: {t - (start if from_beginning else now):.4f}')
+    print(f'{label}: {t - (start if from_beginning else now):.4f}s')
     now = t
 
 
@@ -27,6 +27,7 @@ try:
 
     analyzer.show()
     measure_time('Data Visualization')
+    print('------------------------------')
     measure_time('Operation time', from_beginning=True)
 
 except Exception as err:

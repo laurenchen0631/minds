@@ -16,6 +16,7 @@ class WebScrape:
         main_page = requests.get(f"{self.__site}{path}")
         content = BeautifulSoup(main_page.content, 'html.parser')
 
+        # gc--type-post filters non-text articles
         for article in tqdm(content.find_all('article', class_='gc--type-post')[:n]):
             post = self.scrape_article(article.find('h3', class_='gc__title').a['href'])
             self.articles.append(post)
