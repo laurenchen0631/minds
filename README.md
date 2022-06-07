@@ -6,9 +6,6 @@ Given a short list of curated websites, your script should be able to collect th
 
 Requirements
 
-2. Collect 10 most recent articles from https://www.aljazeera.com/where/mozambique/
-Include collected articles as a JSON file in your submission repository. The format of the
-file is up to you, describe this format in your summary (see step 6).
 3. Pre-process the data. Remove anything that is not part of the article itself, e.g. comments,
 publishing date, images, etc. Make sure the articles are in English and can be processed by
 the sentiment analysis library. Use the tqdm package to display progress on the terminal.

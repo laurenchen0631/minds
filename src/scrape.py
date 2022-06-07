@@ -2,6 +2,7 @@ import hashlib
 import json
 import requests
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 from article import Article
 
 
@@ -11,11 +12,11 @@ class WebScrape:
         self.__site = "https://www.aljazeera.com"
         self.articles: list[Article] = []
 
-    def run(self, path='/where/mozambique/') -> None:
+    def run(self, path='/where/mozambique/', n: int = 10) -> None:
         main_page = requests.get(f"{self.__site}{path}")
         content = BeautifulSoup(main_page.content, 'html.parser')
 
-        for article in content.find_all('article', class_='gc--type-post')[:10]:
+        for article in tqdm(content.find_all('article', class_='gc--type-post')[:n]):
             post = self.scrape_article(article.find('h3', class_='gc__title').a['href'])
             self.articles.append(post)
 
